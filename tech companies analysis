@@ -1,0 +1,44 @@
+#Q: is the tech compnies provide a good PDO(paid days off) ?
+
+-- QUICK LOOK TO THE DATA
+
+  
+SELECT * FROM fortune_companies 
+LIMIT 10; 
+
+--Q: does the tech companies give a good paid time off days?
+
+--sort the comapnies by the employees number
+---fist we need to do some aggrations to get some info
+
+
+select avg(paid_time_off_days),min(paid_time_off_days),max(paid_time_off_days)
+from fortune_companies;
+
+--avg= 18 so 16-20 =good 20+ = great  16- = low
+  
+select company_name,case 
+when paid_time_off_days <16 then 'low'
+when paid_time_off_days between 16 and 20 then 'good'
+when paid_time_off_days >20 then 'great'
+else 'null'
+end as PDO_levle
+from fortune_companies 
+where industry='Technology';
+
+--now we need to see the tatistics of the COs
+
+select PDO_levle,count(PDO_levle) from (select company_name,case 
+when paid_time_off_days <16 then 'low'
+when paid_time_off_days between 16 and 20 then 'good'
+when paid_time_off_days >20 then 'great'
+else 'null'
+end as PDO_levle
+from fortune_companies 
+where industry='Technology')
+group by PDO_levle
+
+
+--Based on the results, we can conclude:
+-- If no company is categorized as 'low' and a significant number are categorized as 'great', 
+-- we can say that overall, tech companies provide great paid time off days.
