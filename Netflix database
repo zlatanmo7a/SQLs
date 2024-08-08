@@ -1,0 +1,44 @@
+This project utilized data from the Netflix database stored at https://www.db-fiddle.com/f/pfsdrKi9cgCDp4Wwb77AF/0
+
+
+--taking alook to the data
+
+select * from "netflix_people" limit 3; 
+select * from "netflix_titles_info" limit 3;
+
+--asking and answering some questions
+
+--how many movies each director made ?
+
+select director,count(title) from netflix_people as np left join 
+netflix_titles_info as ni on np.show_id = ni.show_id
+group by director;
+
+--# there a kot of missing data here(time to make some calls)
+
+--how many works is there for each sort of entertainments ?
+select type,count(type) from "netflix_titles_info"
+group by type;
+ 
+ ---
+--how many movies was released after COVID-19 ?
+
+select count (title) from netflix_titles_info
+where release_year >2019;
+
+--how many movies was released before COVID-19 ?
+
+select count (title) from netflix_titles_info
+where release_year <2019;
+
+--how many movies was released aligned COVID-19 ?
+
+select count (title) from netflix_titles_info
+where release_year =2019;
+
+-- so its notice that there is significant deffrent between befor and after numbers
+its 1 before the pandamic and 19 after and 0 at 2019 maybe its belongs to the fear and
+shoke that happened to all the worled at that time and then things starts to get better
+cuase the world starts to know more about the virus (of cource all of that according to 
+this dataset and egnoring the hikes that netflix went through cause as sayed its about just htis info
+and thank u:)) 
