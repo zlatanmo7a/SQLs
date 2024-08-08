@@ -1,0 +1,69 @@
+--here in this query i'm answering some questions,do some analytics and i liked to share it here with u
+
+
+select distinct (price) from jansales ;
+select * from jansales limit 2
+;select * from customers limit 2;
+
+--How many orders were placed in January?
+select count(orderID) from jansales
+where length (orderID) = 6 ;
+
+--How many of those orders were for an iPhone?
+select count(orderID) from jansales  
+where length (orderID) = 6
+and Product ='iPhone';
+
+--Select the customer account numbers for all the orders that were placed in February.
+select * from febsales 
+where quantity >1 limit 3;
+select * from customers limit 3;
+
+select acctnum from customers as cu
+inner join febsales as fs
+on cu.order_id = fs.orderID;
+
+--Which product was the cheapest one sold in January, and what was the price?
+select price,product from jansales 
+where price <> 'Price Each' 
+and price <> ''
+order by price asc limit 1;
+
+--What is the total revenue for each product sold in January?
+select sum(price),product from jansales
+where product <> ''
+group by product 
+;select * from jansales
+;SELECT sum(quantity)*price as revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product;
+
+SELECT orderdate
+FROM BIT_DB.FebSales
+WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
+
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/18/19 01:35';
+
+
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%';
+
+--*** % is tekking the sql that no matter what comes after the thin gwe wrote
+
+--List all the products sold in Los Angeles in February, and include how many of each were sold.
+
+select product,count(quantity) as sold_quantity from febsales 
+where location like "%los angeles%"
+group by product;
+
+--thank u :) 
+
+
+
+
+
+
