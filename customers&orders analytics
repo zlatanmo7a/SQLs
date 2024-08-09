@@ -1,5 +1,6 @@
 --here in this query i'm answering some questions,do some analytics and i liked to share it here with u
 
+--database link : https://www.dropbox.com/s/cvsasmtr8syq2c2/BIT_DB?dl=0
 
 select distinct (price) from jansales ;
 select * from jansales limit 2
