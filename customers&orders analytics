@@ -55,10 +55,70 @@ WHERE orderdate like '02/18/19%';
 --*** % is tekking the sql that no matter what comes after the thin gwe wrote
 
 --List all the products sold in Los Angeles in February, and include how many of each were sold.
-
-select product,count(quantity) as sold_quantity from febsales 
+select product,sum(quantity) as sold_quantity from febsales 
 where location like "%los angeles%"
 group by product;
+
+--Which locations in New York received at least 3 orders in January, 
+--and how many orders did they each receive? (Hint: use HAVING).
+select * from jansales where location like "%new york%" limit 3;
+
+SELECT location, COUNT(orderID) 
+FROM jansales 
+WHERE location LIKE '%new york%'
+GROUP BY location
+having count(orderID) >2;
+
+--How many of each type of headphone were sold in February?
+select * from febsales limit 3;
+select product,sum(quantity) from febsales  
+where product like "%headphone%"
+group by product;
+
+--What was the average amount spent per account in February
+
+
+--task 1 : find a way to ralate fs to customers
+select * from febsales limit 3;
+
+select * from customers limit 3 ;
+
+
+select acctnum,quantity * price as spent from febsales as fs
+inner join customers as cu
+on fs.orderID = cu.order_id
+group by acctnum
+;
+
+select avg (spent) as avgSPENT from (select acctnum,quantity * price as spent from febsales as fs
+inner join customers as cu
+on fs.orderID = cu.order_id
+group by acctnum);
+
+--What was the average quantity of products purchased per account in February? (Hint: just like question 3, we want the overall average, not the average for each account individually).
+
+select * from febsales limit 3;
+
+select acctnum,sum(quantity) as aggQuantity from febsales as fs
+inner join customers as cu
+on fs.orderID = cu.order_id
+group by acctnum;
+
+select avg (aggQuantity) from (select acctnum,sum(quantity) as aggQuantity from febsales as fs
+inner join customers as cu
+on fs.orderID = cu.order_id
+group by acctnum);
+
+
+--Which product brought in the most revenue in January and how much revenue did it bring in total?
+select * from jansales limit 3;
+
+select sum(price*Quantity) as revenue,product from jansales
+group by product 
+order by revenue desc
+limit 1;
+
+
 
 --thank u :) 
 
