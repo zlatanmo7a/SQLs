@@ -1,0 +1,94 @@
+--here am trying to ask and answer questions about this spotify schema 
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+;
+
+select * from spotifydata limit 3;
+
+--doing sum aggrations 
+
+select avg(energy) as avgEnergy,
+       min (energy) as minEnergy,
+       max(energy) as max ,
+       artist_name
+
+from spotifydata
+;
+
+--sort the singers by te enegy of their songes 
+
+
+select avg(energy) Energy,artist_name
+ from spotifydata
+group by artist_name
+order by Energy desc;
+
+--top 10 popular artists
+
+select artist_name,sum(popularity) popularity
+from spotifydata 
+group by artist_name
+order by popularity desc
+limit 10;
+
+
+--q:what is the songs that probably gonna be played in the high class & romantic places?
+-- we need to look at bottum 5 loudness
+
+select avg(loudness) as avg,
+       min(loudness) as min,
+       max(loudness) as max
+from spotifydata ;
+
+--avg ~ -6  
+--min ~ -12 quite
+--max ~ -3  loud
+
+
+select track_name,loudness from spotifydata
+where loudness <-6 limit 5
+
+
+
+;
+-- sort the songs by loudness level 
+
+select track_name,
+case when loudness between -7 and -4 then 'normal'
+     when loudness < -7 then 'loud'
+     else 'quite'
+     end as loudness_lvl
+     from spotifydata
+     ;
+     
+
+     --possible Imaginary scenario--
+--we(spotify) want to run a sparkling drink ads
+--- what is the places and audince should be targeted? 
+-- young ppl places clubs,parties 
+--- so i think probably we targeting loud music and then normal 
+ 
+select  track_name,loudness from spotifydata 
+where loudness > -6
+order by loudness desc
+;
+
+--thank u
