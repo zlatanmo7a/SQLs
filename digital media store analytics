@@ -1,0 +1,121 @@
+-- Hi there! In this project 
+--I am investigating a dataset that represents a digital media store. I'm asking questions and answering them.
+--Enjoy!
+
+
+-- discovering the data
+
+select * from albums limit 10;
+
+-- artistID  abum id
+
+select * from artists limit 10;
+
+--artistID`
+
+select * from customers limit 10;
+
+--customer id    suppREB id
+
+select * from employees limit 10;
+
+--employeeID
+-- the employee could be supp reb 
+
+select * from genres limit 10;
+
+--genreID
+
+select * from invoice_items limit 10;
+
+--invoiceID
+--track id
+--invoicelaneid
+
+select * from invoices limit 10;
+
+--customerID
+--invoiceID
+-- track id
+
+
+select * from media_types limit 10;
+
+--media type id
+
+select * from playlist_track limit 10;
+
+--playlistid;
+--trackID
+
+select * from playlists limit 10;
+
+--playlist ID
+
+select * from tracks limit 10;
+
+--track id
+--albumID
+--mediatypeID
+--genr    ID 
+ 
+
+
+-- Q:how many customers we have from each country
+
+select count (customerId) as customers_count, country
+
+from customers 
+
+group by country
+
+order by customers_count desc
+;
+
+---make sure
+
+select sum (customers_count) from (select count (customerId) as customers_count, country
+
+from customers 
+
+group by country)
+;
+
+select count(customerId) from customers
+;
+
+
+--  Q: How many purchases did each sales employee contribute to?
+
+
+-- connect employees, customers, invoices
+ 
+ select em.employeeid,cu.customerid,count(inv.invoiceid) as invoices_count
+ 
+  from employees em
+   
+  inner join customers cu on em.employeeid = cu.supportrepid
+  left join invoices inv on cu.customerid = inv.customerid
+  
+group by cu.customerid;
+
+
+
+select  em.employeeid ,count(invoices_count) as total_purcheses
+
+from (select em.employeeid,cu.customerid,count(inv.invoiceid) as invoices_count
+ 
+  from employees em
+   
+  inner join customers cu on em.employeeid = cu.supportrepid
+  left join invoices inv on cu.customerid = inv.customerid
+  
+group by cu.customerid)
+
+group by employeeid
+;
+
+
+ 
+
+
